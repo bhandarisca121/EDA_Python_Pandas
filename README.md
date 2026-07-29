@@ -1,14 +1,16 @@
-# Walmart Sales Analysis using SQL
+# Walmart Sales Analysis using Python & Pandas
 
 ## Project Overview
 
-This project performs an **Exploratory Data Analysis (EDA)** on Walmart sales data using **SQL**. The objective is to analyze sales performance, customer behavior, product trends, and branch performance while demonstrating practical SQL skills commonly required for Data Analyst roles.
+This project performs an **Exploratory Data Analysis (EDA)** on Walmart sales data using **Python and Pandas**.
 
-The analysis covers data exploration, aggregation, filtering, window functions, Common Table Expressions (CTEs), views, and business insights.
+The objective is to analyze sales performance, customer behavior, product trends, payment preferences, time-based patterns, and branch performance while demonstrating practical **Python, Pandas, NumPy, Matplotlib, and Seaborn** skills commonly required for Data Analyst and Data Scientist roles.
+
+The analysis covers data exploration, data cleaning, aggregation, filtering, feature engineering, merging datasets, ranking, time-series analysis, visualization, and business insights.
 
 ---
 
-## Dataset
+# Dataset
 
 The dataset contains transactional sales records from Walmart stores.
 
@@ -39,145 +41,300 @@ The dataset contains transactional sales records from Walmart stores.
 # 🎯 Project Objectives
 
 * Explore the dataset structure
-* Identify missing or duplicate records
+* Identify missing values
+* Detect duplicate records
+* Analyze data types
+* Perform data cleaning
 * Analyze sales performance
 * Compare branch performance
 * Evaluate product performance
 * Understand customer purchasing behavior
 * Analyze payment preferences
 * Discover sales trends over time
-* Practice advanced SQL techniques
+* Perform feature engineering
+* Practice Pandas aggregation and transformation techniques
+* Create meaningful visualizations
 * Generate business recommendations
 
 ---
 
-# 🛠️ Tools Used
+# 🛠️ Tools & Technologies
 
-* SQL
-* DuckDB
+* Python
+* Pandas
+* NumPy
+* Matplotlib
+* Seaborn
+* Jupyter Notebook / Google Colab
 * VS Code
 * Git & GitHub
 
 ---
 
-#  Project Structure
+# 📁 Project Structure
 
-```
-Walmart-Sales-SQL-EDA/
+```text
+Walmart-Sales-Pandas-EDA/
 │
 ├── data/
 │   └── Walmart_sales.csv
 │
-├── sql/
-│   ├── 01_Data_Exploration.sql
-│   ├── 02_Sales_Analysis.sql
-│   ├── 03_Customer_Analysis.sql
-│   ├── 04_Product_Analysis.sql
-│   ├── 05_Time_Analysis.sql
-│   ├── 06_Window_Functions.sql
-│   ├── 07_CTEs.sql
-│   ├── 08_Views.sql
-│   └── 09_Business_Insights.sql
+├── notebooks/
+│   └── Walmart_Sales_EDA.ipynb
+│
+├── src/
+│   ├── data_cleaning.py
+│   ├── sales_analysis.py
+│   └── visualization.py
+│
+├── visualizations/
+│   ├── monthly_sales.png
+│   ├── branch_sales.png
+│   ├── product_sales.png
+│   └── payment_analysis.png
 │
 ├── README.md
-└── LICENSE
+└── requirements.txt
 ```
 
 ---
 
-# SQL Skills Demonstrated
+# 🐍 Python & Pandas Skills Demonstrated
 
-### Data Exploration
+## Data Loading & Exploration
 
-* Row and column count
-* Data types
-* Missing values
+* `pd.read_csv()`
+* `df.head()`
+* `df.tail()`
+* `df.shape`
+* `df.info()`
+* `df.describe()`
+* `df.dtypes`
+* `df.columns`
+
+---
+
+## Data Quality & Cleaning
+
+* Missing value detection
 * Duplicate detection
-* Distinct values
-* Cardinality analysis
+* Data type conversion
+* Date/time conversion
+* String cleaning
+* Handling inconsistent values
+* Renaming columns
+* Dropping unnecessary columns
+
+Examples:
+
+```python
+df.isnull().sum()
+
+df.duplicated().sum()
+
+df['Date'] = pd.to_datetime(df['Date'])
+
+df.columns = df.columns.str.strip()
+```
 
 ---
 
-### Aggregate Functions
+## Filtering & Selection
 
-* COUNT()
-* SUM()
-* AVG()
-* MIN()
-* MAX()
+Pandas techniques used include:
 
----
+* Boolean filtering
+* Multiple conditions
+* `.loc[]`
+* `.iloc[]`
+* `.isin()`
+* `.between()`
+* `.query()`
+* String filtering with `.str.contains()`
 
-### Filtering
+Example:
 
-* WHERE
-* HAVING
-* BETWEEN
-* IN
-* LIKE
+```python
+df[df['Quantity'] > 5]
 
----
+df[df['City'].isin(['Yangon', 'Mandalay'])]
 
-### Grouping
-
-* GROUP BY
-* ORDER BY
+df[df['Rating'].between(7, 10)]
+```
 
 ---
 
-### Joins
+# 📊 Aggregation & Grouping
 
-* INNER JOIN
-* LEFT JOIN
+The project demonstrates:
 
-*(Included as practice examples where applicable.)*
+* `groupby()`
+* `sum()`
+* `mean()`
+* `count()`
+* `min()`
+* `max()`
+* `median()`
+* `nunique()`
+* `agg()`
 
----
+Example:
 
-### Common Table Expressions (CTEs)
+```python
+df.groupby('Branch')['Total'].sum().sort_values(
+    ascending=False
+)
+```
 
-Examples include:
+Multiple aggregations:
 
-* Revenue analysis
-* Branch comparisons
-* Product rankings
-* Above-average sales
-
----
-
-### Window Functions
-
-* ROW_NUMBER()
-* RANK()
-* DENSE_RANK()
-* LAG()
-* LEAD()
-* SUM() OVER()
-* AVG() OVER()
-
----
-
-### Views
-
-Created reusable views including:
-
-* Monthly Sales Summary
-* Branch Performance
-* Product Performance
-* Customer Insights
-* Daily Sales Dashboard
+```python
+df.groupby('Branch').agg(
+    Total_Revenue=('Total', 'sum'),
+    Average_Sales=('Total', 'mean'),
+    Total_Quantity=('Quantity', 'sum'),
+    Transactions=('Invoice_ID', 'nunique')
+)
+```
 
 ---
 
-# Analysis Performed
+# 🔄 Merging & Combining Data
+
+Pandas `merge()` is used to combine datasets when multiple tables are available.
+
+Techniques include:
+
+* `merge()`
+* `concat()`
+* `join()`
+
+Examples:
+
+```python
+df_merged = pd.merge(
+    sales_df,
+    branch_df,
+    on='Branch_ID',
+    how='left'
+)
+```
+
+The project also demonstrates:
+
+* Inner joins
+* Left joins
+* Right joins
+* Outer joins
+
+---
+
+# 📈 Advanced Pandas Techniques
+
+## Ranking
+
+Equivalent to SQL ranking functions:
+
+```python
+df['Revenue_Rank'] = (
+    df['Total']
+    .rank(method='dense', ascending=False)
+)
+```
+
+---
+
+## Transform
+
+Used for group-level calculations while keeping the original DataFrame structure:
+
+```python
+df['Branch_Avg_Sales'] = (
+    df.groupby('Branch')['Total']
+      .transform('mean')
+)
+```
+
+---
+
+## Shift
+
+Used for comparing current values with previous or next values:
+
+```python
+df['Previous_Day_Sales'] = df['Total'].shift(1)
+```
+
+---
+
+## Cumulative Calculations
+
+```python
+df['Cumulative_Sales'] = df['Total'].cumsum()
+```
+
+Grouped cumulative calculations:
+
+```python
+df['Cumulative_Branch_Sales'] = (
+    df.groupby('Branch')['Total']
+      .cumsum()
+)
+```
+
+---
+
+## Rolling Calculations
+
+Used for time-series analysis:
+
+```python
+df['7_Day_Moving_Average'] = (
+    df['Total']
+      .rolling(7)
+      .mean()
+)
+```
+
+---
+
+# 📅 Date & Time Analysis
+
+The project uses Pandas datetime functionality to analyze sales patterns.
+
+Examples:
+
+```python
+df['Date'] = pd.to_datetime(df['Date'])
+
+df['Year'] = df['Date'].dt.year
+df['Month'] = df['Date'].dt.month
+df['Month_Name'] = df['Date'].dt.month_name()
+df['Day'] = df['Date'].dt.day
+df['Day_Name'] = df['Date'].dt.day_name()
+df['Day_of_Week'] = df['Date'].dt.dayofweek
+```
+
+Additional time features:
+
+```python
+df['Is_Weekend'] = df['Day_of_Week'] >= 5
+```
+
+---
+
+# 📊 Analysis Performed
 
 ## 1. Data Exploration
 
-* Number of records
-* Data validation
-* Duplicate checks
-* Null value checks
+* Number of rows and columns
+* Dataset structure
+* Data types
+* Missing values
+* Duplicate records
+* Unique values
 * Cardinality analysis
+* Descriptive statistics
 
 ---
 
@@ -186,79 +343,259 @@ Created reusable views including:
 * Total revenue
 * Average transaction value
 * Total products sold
+* Maximum transaction
+* Minimum transaction
 * Monthly sales
 * Daily sales
 * Hourly sales
+* Cumulative revenue
+
+Example:
+
+```python
+total_revenue = df['Total'].sum()
+
+average_transaction = df['Total'].mean()
+
+total_quantity = df['Quantity'].sum()
+```
 
 ---
 
 ## 3. Branch Analysis
 
-* Highest revenue branch
-* Highest quantity sold
-* Average customer rating
-* Average basket value
+Analyze each Walmart branch based on:
+
+* Total revenue
+* Total quantity sold
+* Average transaction value
 * Number of transactions
+* Average customer rating
+* Gross income
+
+Example:
+
+```python
+branch_analysis = df.groupby('Branch').agg(
+    Revenue=('Total', 'sum'),
+    Quantity=('Quantity', 'sum'),
+    Avg_Transaction=('Total', 'mean'),
+    Avg_Rating=('Rating', 'mean'),
+    Transactions=('Invoice_ID', 'nunique')
+)
+```
 
 ---
 
 ## 4. Product Analysis
 
+Analyze:
+
 * Best-selling product lines
 * Lowest-performing products
 * Revenue contribution
-* Product rankings
+* Quantity sold
+* Average price
+* Gross income
+* Customer ratings
+
+Example:
+
+```python
+product_analysis = df.groupby('Product_line').agg(
+    Revenue=('Total', 'sum'),
+    Quantity=('Quantity', 'sum'),
+    Avg_Rating=('Rating', 'mean'),
+    Gross_Income=('Gross_income', 'sum')
+).sort_values(
+    'Revenue',
+    ascending=False
+)
+```
 
 ---
 
 ## 5. Customer Analysis
 
+Analyze customer behavior based on:
+
 * Member vs Normal customers
-* Gender comparison
-* Purchase behavior
+* Gender
+* Purchase frequency
+* Average transaction value
+* Total revenue
+* Quantity purchased
 * Customer ratings
+
+Example:
+
+```python
+customer_analysis = df.groupby('Customer_type').agg(
+    Revenue=('Total', 'sum'),
+    Avg_Spending=('Total', 'mean'),
+    Quantity=('Quantity', 'sum'),
+    Transactions=('Invoice_ID', 'nunique')
+)
+```
 
 ---
 
 ## 6. Payment Analysis
 
+Analyze:
+
 * Most popular payment method
 * Revenue by payment type
-* Average purchase by payment method
+* Number of transactions
+* Average purchase value
+* Payment preferences by customer type
+
+Example:
+
+```python
+payment_analysis = df.groupby('Payment').agg(
+    Revenue=('Total', 'sum'),
+    Transactions=('Invoice_ID', 'nunique'),
+    Avg_Transaction=('Total', 'mean')
+).sort_values(
+    'Revenue',
+    ascending=False
+)
+```
 
 ---
 
 ## 7. Time Analysis
 
+Analyze:
+
+* Sales by year
 * Sales by month
+* Sales by day
 * Sales by weekday
 * Sales by hour
-* Weekend vs weekday comparison
+* Weekend vs weekday sales
+* Peak shopping hours
+* Monthly revenue trends
+
+Example:
+
+```python
+monthly_sales = (
+    df.groupby(df['Date'].dt.month)['Total']
+      .sum()
+      .sort_values(ascending=False)
+)
+```
+
+Weekend vs weekday:
+
+```python
+df['Day_Type'] = np.where(
+    df['Date'].dt.dayofweek >= 5,
+    'Weekend',
+    'Weekday'
+)
+
+weekend_analysis = (
+    df.groupby('Day_Type')['Total']
+      .agg(['sum', 'mean', 'count'])
+)
+```
 
 ---
 
-## 8. Business Insights
+# 📉 Data Visualization
 
-Examples include:
+The project uses **Matplotlib and Seaborn** to visualize business trends.
 
-* Best-performing branch
-* Best-performing city
-* Top product categories
-* Customer purchasing trends
-* Operational recommendations
+### Visualizations include:
+
+* Revenue by branch
+* Revenue by product line
+* Monthly revenue trend
+* Daily sales trend
+* Sales by weekday
+* Sales by hour
+* Payment method distribution
+* Customer type comparison
+* Gender comparison
+* Product performance
+* Customer rating distribution
+* Correlation heatmap
+
+Example:
+
+```python
+sns.barplot(
+    data=branch_analysis.reset_index(),
+    x='Branch',
+    y='Revenue'
+)
+
+plt.title('Revenue by Branch')
+plt.xlabel('Branch')
+plt.ylabel('Revenue')
+plt.show()
+```
 
 ---
 
-# Business Questions Answered
+# 🔎 Business Questions Answered
 
-Some of the business questions explored include:
+The analysis answers questions such as:
 
 * Which branch generates the highest revenue?
 * Which city performs best?
-* Which products sell the most?
+* Which product line generates the most revenue?
+* Which product line sells the highest quantity?
 * Which customer segment spends the most?
+* Do Members or Normal customers have higher average spending?
 * Which payment method is most popular?
 * What are the busiest shopping hours?
+* Which day of the week generates the most revenue?
+* How do weekend sales compare with weekday sales?
 * Which product line has the highest customer satisfaction?
+* Which branch has the highest average transaction value?
 * Which branch should receive additional inventory?
-* Which branch needs operational improvements?
+* Which product categories require more attention?
+* Are sales increasing or decreasing over time?
+
+---
+
+# 💡 Business Insights
+
+The final analysis converts the EDA results into actionable business recommendations.
+
+Examples include:
+
+* Identifying the highest-performing branch
+* Identifying underperforming branches
+* Identifying high-revenue product categories
+* Identifying products requiring additional inventory
+* Understanding customer purchasing behavior
+* Optimizing staffing during peak shopping hours
+* Understanding preferred payment methods
+* Improving customer experience based on ratings
+* Identifying seasonal or monthly sales patterns
+
+---
+
+# 🎯 Key Learning Outcomes
+
+Through this project, I practiced:
+
+* Python programming
+* Pandas DataFrame manipulation
+* NumPy
+* Data cleaning
+* Exploratory Data Analysis
+* Feature engineering
+* GroupBy and aggregation
+* Filtering and sorting
+* Merging datasets
+* Time-series analysis
+* Ranking and transformation
+* Data visualization
+* Business problem solving
+* Communicating analytical findings
